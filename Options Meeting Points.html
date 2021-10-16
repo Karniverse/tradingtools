@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<style>
+body:after {
+   content: "";
+  display: table;
+  clear: both;
+}
+  .column {
+  float: left;
+  width: 33.33%;
+  /*padding: 10px;*/
+  height: 300px;
+}
+</style>
+
+<body>
+
+<div class="column" id="callstrike"></div>
+
+<div class="column">
+  <div>Variable:<input type="number" id="changevalue" value=""></div>
+  <div>Base Value:<input type="number" id="strikebase" value=""></div>
+  <div><button id="bu" onclick="createcells()">SET</button></div>
+  <div><input type="text" id="leftvalue" value=""><input type="text" id="rightvalue" value=""></div>
+</div>
+
+<div class="column" id="putstrike"></div>
+
+
+
+</body>
+
+<script>
+
+  var sb=document.getElementById('strikebase').value;
+  var cv=document.getElementById('changevalue').value;
+  var callprices=sb-cv-500;
+  var putprices=sb-cv-500;
+function createcells() {
+  
+  document.getElementById("bu").innerHTML = sb-cv;
+    for (var i = 1; i < 21; i++) {
+    createbutton(callprices,"callstrike", "call", "call-"+[i]);
+    callprices=callprices+50;
+    }
+    for (var i = 20; i > 0; i--) {
+    createbutton(putprices,"putstrike", "put" , "put-"+[i]);
+    putprices=putprices+50;
+    }
+
+}
+
+function createbutton(btnm, identi, classing, number){
+var naming=btnm
+var row=document.createElement("div");
+var btnm=document.createElement("input");
+btnm.id=number
+btnm.type="button";
+btnm.value=naming;
+btnm.onclick = btnact;
+btnm.className = classing
+row.appendChild(btnm);
+document.getElementById(identi).appendChild(row);
+}
+
+function btnact()
+{
+
+if (this.id.split("-")[0]==="call") {
+    document.getElementById("leftvalue").value=this.value
+    document.getElementById("rightvalue").value=document.getElementById("put-"+this.id.split("-")[1]).value
+} else if (this.id.split("-")[0]==="put") {
+    document.getElementById("leftvalue").value=document.getElementById("call-"+this.id.split("-")[1]).value
+    document.getElementById("rightvalue").value=this.value
+} else {
+ 
+}
+}
+
+</script>
+</html>
